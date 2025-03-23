@@ -25,21 +25,22 @@ export default function AddContactToConnectionModal({ open, onClose, connection,
     }, [connection]);
 
     const handleAddContact = async () => {
-        if (!connection || !selectedContact){
+        if (!connection || !selectedContact) {
             return;
         }
-
+    
         try {
             const contact = contacts.find(cont => cont.id === selectedContact);
             if (contact) {
-                const isContactAlreadyAdded = connection.contacts.some(c => c.id === contact.id);
+                const currentContacts = Array.isArray(connection.contacts) ? connection.contacts : [];
+                const isContactAlreadyAdded = currentContacts.some(c => c.id === contact.id);
                 if (isContactAlreadyAdded) {
                     toast.error("Este contato já foi adicionado à conexão.");
                     return;
                 }
-
-                const updatedContacts = [...connection.contacts, { id: contact.id, name: contact.name, phone: contact.phone }];
-                
+    
+                const updatedContacts = [...currentContacts, { id: contact.id, name: contact.name, phone: contact.phone }];
+    
                 const connectionRef = doc(db, "connections", connection.id);
                 await updateDoc(connectionRef, { contacts: updatedContacts });
                 toast.success("Adicionado com sucesso!");
@@ -49,6 +50,7 @@ export default function AddContactToConnectionModal({ open, onClose, connection,
             console.error("Erro ao adicionar contato à conexão:", error);
         }
     };
+    
 
     const filteredContacts = contacts.filter(contact => contact.uid === user?.uid);
 

@@ -51,7 +51,7 @@ const AddContactModal = ({ open, onClose, onSave }: AddContactModalProps) => {
                     label="Telefone do Contato"
                     variant="outlined"
                     fullWidth
-                    type="email"
+                    type="text"
                     value={contactPhone}
                     onChange={(e) => setContactPhone(e.target.value)}
                 />
