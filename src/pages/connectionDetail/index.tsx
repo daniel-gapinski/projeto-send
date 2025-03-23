@@ -73,6 +73,8 @@ export default function ConnectionDetail() {
 
 
     useEffect(() => {
+        let isMounted = true;
+        
         const fetchConnectionDetails = async () => {
             if (!id) return;
 
@@ -80,7 +82,7 @@ export default function ConnectionDetail() {
                 const connectionRef = doc(db, "connections", id);
                 const connectionDoc = await getDoc(connectionRef);
 
-                if (connectionDoc.exists()) {
+                if (connectionDoc.exists() && isMounted) {
                     const connectionData = connectionDoc.data() as FirestoreConnection;
 
                     const formattedConnection: Connection = {
@@ -105,6 +107,9 @@ export default function ConnectionDetail() {
 
         fetchConnectionDetails();
         fetchContactsInConnection();
+        return () => {
+            isMounted = false;
+        };
     }, [id]);
 
     useEffect(() => {
@@ -156,8 +161,8 @@ export default function ConnectionDetail() {
                 <Typography variant="h6" className="font-semibold text-gray-700 mb-4">Contatos Cadastrados</Typography>
                 {contactsInConnection.length > 0 ? (
                     <List>
-                        {contactsInConnection.map((contact, index) => (
-                            <ListItem key={index} className="border-b border-gray-200">
+                        {contactsInConnection.map((contact) => (
+                            <ListItem key={contact.id} className="border-b border-gray-200">
                                 <ListItemIcon><GroupAdd color="primary" /></ListItemIcon>
                                 <ListItemText primary={contact.name} secondary={`Telefone: ${PhoneFormat(contact.phone)}`} />
                             </ListItem>
