@@ -9,13 +9,13 @@ interface AddContactModalProps {
 
 const AddContactModal = ({ open, onClose, onSave }: AddContactModalProps) => {
     const [contactName, setContactName] = useState('');
-    const [contactEmail, setContactEmail] = useState('');
+    const [contactPhone, setContactPhone] = useState('');
 
     const handleSave = () => {
-        if (contactName.trim() && contactEmail.trim()) {
-            onSave(contactName, contactEmail);
+        if (contactName.trim() && contactPhone.trim()) {
+            onSave(contactName, contactPhone);
             setContactName('');
-            setContactEmail('');
+            setContactPhone('');
         }
     };
 
@@ -52,8 +52,8 @@ const AddContactModal = ({ open, onClose, onSave }: AddContactModalProps) => {
                     variant="outlined"
                     fullWidth
                     type="email"
-                    value={contactEmail}
-                    onChange={(e) => setContactEmail(e.target.value)}
+                    value={contactPhone}
+                    onChange={(e) => setContactPhone(e.target.value)}
                 />
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
                     <Button variant="outlined" color="error" onClick={onClose}>
@@ -63,7 +63,7 @@ const AddContactModal = ({ open, onClose, onSave }: AddContactModalProps) => {
                         variant="contained"
                         color="primary"
                         onClick={handleSave}
-                        disabled={!contactName.trim() || !contactEmail.trim()}
+                        disabled={!contactName.trim() || !contactPhone.trim()}
                     >
                         Salvar
                     </Button>
