@@ -48,7 +48,7 @@ const AddContactModal = ({ open, onClose, onSave }: AddContactModalProps) => {
                     onChange={(e) => setContactName(e.target.value)}
                 />
                 <TextField
-                    label="E-mail do Contato"
+                    label="Telefone do Contato"
                     variant="outlined"
                     fullWidth
                     type="email"
