@@ -9,7 +9,7 @@ import { BsBoxArrowRight } from "react-icons/bs";
 import TemporaryDrawer from '../drawer';
 import { signOut } from 'firebase/auth';
 import { toast } from 'react-toastify';
-import { auth } from "../../services/firebaseConnection";
+import { auth } from "../../db/firebaseConnection";
 
 export default function Sidebar() {
   const [openDrawer, setOpenDrawer] = React.useState(false);

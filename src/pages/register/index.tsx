@@ -1,30 +1,13 @@
-import { Link, useNavigate } from "react-router-dom";
-import { z } from "zod";
-import { useContext, useEffect } from "react";
-import { AuthContext } from "../../contexts/AuthContext";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { createUserWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
-import { auth } from "../../services/firebaseConnection";
-import { toast } from "react-toastify";
+// pages/Register.tsx
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useRegister } from "../../hooks/useRegister";
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
-
-const schema = z.object({
-    name: z.string().nonempty("O campo nome é obrigatório!"),
-    email: z.string().email("Insira um e-mail válido!").nonempty("O campo e-mail é obrigatório!"),
-    password: z.string().min(6, "A senha deve conter pelo menos 6 caracteres").nonempty("O campo senha é obrigatório!"),
-});
-
-type FormData = z.infer<typeof schema>;
+import { signOut } from "firebase/auth";
+import { auth } from "../../db/firebaseConnection";
 
 export default function Register() {
-    const { handleInfoUser } = useContext(AuthContext);
-    const navigate = useNavigate();
-
-    const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
-        resolver: zodResolver(schema),
-        mode: "onChange",
-    });
+    const { register, handleSubmit, errors, onSubmit, error } = useRegister();
 
     useEffect(() => {
         async function handleLogout() {
@@ -32,23 +15,6 @@ export default function Register() {
         }
         handleLogout();
     }, []);
-
-    async function onSubmit(data: FormData) {
-        createUserWithEmailAndPassword(auth, data.email, data.password)
-            .then(async (user) => {
-                await updateProfile(user.user, { displayName: data.name });
-                handleInfoUser({
-                    name: data.name,
-                    email: data.email,
-                    uid: user.user.uid,
-                });
-                toast.success("Usuário registrado com sucesso!");
-                navigate("/", { replace: true });
-            })
-            .catch(() => {
-                toast.error("Erro ao cadastrar usuário, tente novamente...");
-            });
-    }
 
     return (
         <Box display="flex" justifyContent="center" alignItems="center" height="100vh" bgcolor="#F3F4F6" p={2}>
@@ -86,6 +52,7 @@ export default function Register() {
                         variant="outlined"
                         margin="normal"
                     />
+                    {error && <Typography color="error" align="center" mt={2}>{error}</Typography>}
                     <Button
                         type="submit"
                         fullWidth

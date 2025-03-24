@@ -1,33 +1,12 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
-import { z } from "zod";
-import { auth } from "../../services/firebaseConnection";
-import { toast } from "react-toastify";
-import { 
-    Box, 
-    Button, 
-    Paper, 
-    TextField, 
-    Typography 
-} from "@mui/material";
-
-const schema = z.object({
-    email: z.string().email("Insira um e-mail válido!").nonempty("O campo e-mail é obrigatório"),
-    password: z.string().nonempty("O campo senha é obrigatório!"),
-});
-
-type FormData = z.infer<typeof schema>;
+import { Link } from "react-router-dom";
+import { useLogin } from "../../hooks/useLogin";
+import { Box, Button, Paper, TextField, Typography } from "@mui/material";
+import { signOut } from "firebase/auth";
+import { auth } from "../../db/firebaseConnection";
 
 export default function Login() {
-    const navigate = useNavigate();
-
-    const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
-        resolver: zodResolver(schema),
-        mode: "onChange",
-    });
+    const { register, handleSubmit, errors, onSubmit, error } = useLogin();
 
     useEffect(() => {
         async function handleLogout() {
@@ -36,40 +15,12 @@ export default function Login() {
         handleLogout();
     }, []);
 
-    function onSubmit(data: FormData) {
-        signInWithEmailAndPassword(auth, data.email, data.password)
-            .then(() => {
-                toast.success("Bem-vindo(a)!");
-                navigate("/", { replace: true });
-            })
-            .catch(() => {
-                toast.error("E-mail ou senha incorretos!");
-            });
-    }
-
     return (
-        <Box 
-            display="flex" 
-            justifyContent="center" 
-            alignItems="center" 
-            height="100vh" 
-            bgcolor="#F3F4F6"
-            p={2}
-        >
-            <Paper 
-                elevation={3} 
-                sx={{
-                    padding: 4, 
-                    borderRadius: 2, 
-                    width: "100%", 
-                    maxWidth: 400,
-                    border: "1px solid #D1D5DB"
-                }}
-            >
+        <Box display="flex" justifyContent="center" alignItems="center" height="100vh" bgcolor="#F3F4F6" p={2}>
+            <Paper elevation={3} sx={{ padding: 4, borderRadius: 2, width: "100%", maxWidth: 400, border: "1px solid #D1D5DB" }}>
                 <Typography variant="h5" textAlign="center" fontWeight="600" color="textPrimary" mb={3}>
                     Bem-vindo!
                 </Typography>
-
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <TextField
                         fullWidth
@@ -81,7 +32,6 @@ export default function Login() {
                         variant="outlined"
                         margin="normal"
                     />
-
                     <TextField
                         fullWidth
                         label="Senha"
@@ -92,20 +42,16 @@ export default function Login() {
                         variant="outlined"
                         margin="normal"
                     />
-
+                    {error && <Typography color="error" align="center" mt={2}>{error}</Typography>}
                     <Button
                         type="submit"
                         fullWidth
                         variant="contained"
-                        sx={{
-                            mt: 2,
-              
-                        }}
+                        sx={{ mt: 2 }}
                     >
                         Entrar
                     </Button>
                 </form>
-
                 <Typography textAlign="center" mt={2} fontSize="0.875rem" color="textSecondary">
                     Não tem uma conta?{" "}
                     <Link to="/register" className="text-blue-500">

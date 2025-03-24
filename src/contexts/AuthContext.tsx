@@ -1,23 +1,7 @@
-import { ReactNode, createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../services/firebaseConnection";
-
-interface AuthProviderProps{
-    children: ReactNode;
-}
-
-interface UserProps{
-    uid: string;
-    name: string | null;
-    email: string | null;
-}
-
-type AuthContextData = {
-    signed: boolean;
-    loadingAuth: boolean;
-    handleInfoUser: ({ name, email, uid }: UserProps) => void;
-    user: UserProps | null;
-}
+import { auth } from "../db/firebaseConnection";
+import { AuthContextData, AuthProviderProps, UserProps } from "../types";
 
 
 export const AuthContext = createContext({} as AuthContextData);
@@ -30,7 +14,6 @@ function AuthProvider({ children }: AuthProviderProps) {
     useEffect(() => {
         const unsub = onAuthStateChanged(auth, (user) => {
             if(user) {
-                // Há um usuário logado
                 setUser({
                     uid: user.uid,
                     name: user?.displayName,
@@ -38,7 +21,6 @@ function AuthProvider({ children }: AuthProviderProps) {
                 })
                 setLoadingAuth(false);
             }else {
-                // Não há usuário logado
                 setUser(null);
                 setLoadingAuth(false);
             }

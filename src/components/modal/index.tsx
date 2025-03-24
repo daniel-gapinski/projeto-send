@@ -7,7 +7,7 @@ interface AddConnectionModalProps {
   onSave: (name: string) => void;
 }
 
-const AddConnectionModal = ({ open, onClose, onSave }: AddConnectionModalProps) => {
+export default function AddConnectionModal({ open, onClose, onSave }: AddConnectionModalProps) {
   const [connectionName, setConnectionName] = useState('');
 
   const handleSave = () => {
@@ -53,4 +53,3 @@ const AddConnectionModal = ({ open, onClose, onSave }: AddConnectionModalProps) 
   );
 };
 
-export default AddConnectionModal;

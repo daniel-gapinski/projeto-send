@@ -1,84 +1,24 @@
-import { useEffect, useState } from "react";
-import { db } from "../../services/firebaseConnection";
-import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { useState } from "react";
 import { Container } from "../../components/container";
-import {
-    Typography,
-    TextField,
-    FormControl,
-    FormLabel,
-    FormGroup,
-    FormControlLabel,
-    Checkbox,
-    Button,
-    Divider
-} from "@mui/material";
-import { toast } from "react-toastify";
-import { PhoneFormat } from "../../utils";
+import { Typography, TextField, FormControl, FormLabel, Divider, Button } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
-
-interface Contact {
-    id: string;
-    name: string;
-    phone: string;
-    uid: string;
-}
+import { useFetchContacts } from "../../hooks/useFetchContacts";
+import { sendUserMessage } from "../../services/sendUserMessageService";
+import { UserContactList } from "../../components/userContactList/nidex";
+import { ContactProps } from "../../types";
 
 export default function SendMessage() {
     const navigate = useNavigate();
-    const [contacts, setContacts] = useState<Contact[]>([]);
-    const [selectedContacts, setSelectedContacts] = useState<Contact[]>([]);
+    const contacts = useFetchContacts();
+    const [selectedContacts, setSelectedContacts] = useState<ContactProps[]>([]);
     const [message, setMessage] = useState("");
     const [scheduledTime, setScheduledTime] = useState("");
 
-    useEffect(() => {
-        const fetchContacts = async () => {
-            const auth = getAuth();
-            const user = auth.currentUser;
-            if (!user) {
-                console.error("Usuário não autenticado!");
-                return;
-            }
-
-            const q = query(collection(db, "contacts"), where("uid", "==", user.uid));
-            const querySnapshot = await getDocs(q);
-            const contactsList: Contact[] = querySnapshot.docs.map(doc => ({
-                id: doc.id,
-                name: doc.data().name || "",
-                phone: doc.data().phone || "",
-                uid: doc.data().uid || "",
-            }));
-            setContacts(contactsList);
-        };
-
-        fetchContacts();
-    }, []);
-
-
-    const handleSendMessage = async () => {
-        if (!message || selectedContacts.length === 0) {
-            toast.info("Digite uma mensagem e selecione pelo menos um contato!");
-            return;
-        }
-
-        try {
-            await addDoc(collection(db, "messages"), {
-                text: message,
-                contacts: selectedContacts,
-                status: scheduledTime ? "agendada" : "enviada",
-                scheduledTime: scheduledTime || null,
-                sentAt: scheduledTime ? null : new Date().toISOString(),
-            });
-
-            toast.success("Mensagem cadastrada com sucesso!");
-            setMessage("");
-            setScheduledTime("");
-            setSelectedContacts([]);
-        } catch (error) {
-            toast.error("Erro ao enviar mensagem:");
-        }
+    const resetFields = () => {
+        setMessage("");
+        setSelectedContacts([]);
+        setScheduledTime("");
     };
 
     return (
@@ -108,39 +48,22 @@ export default function SendMessage() {
                 value={scheduledTime}
                 onChange={(e) => setScheduledTime(e.target.value)}
                 sx={{ mb: 2 }}
-                InputLabelProps={{
-                    shrink: true,
-                }}
+                InputLabelProps={{ shrink: true }}
             />
             <FormControl component="fieldset" sx={{ mb: 2 }}>
                 <FormLabel component="legend">Selecionar Contatos</FormLabel>
-                <FormGroup>
-                    {contacts.map((contact) => (
-                        <FormControlLabel
-                            key={contact.id}
-                            control={
-                                <Checkbox
-                                    checked={selectedContacts.includes(contact)}
-                                    onChange={() => {
-                                        setSelectedContacts((prev) =>
-                                            prev.includes(contact)
-                                                ? prev.filter((c) => c !== contact)
-                                                : [...prev, contact]
-                                        );
-                                    }}
-                                />
-                            }
-                            label={`${contact.name} - ${PhoneFormat(contact.phone)}`}
-                        />
-                    ))}
-                </FormGroup>
+                <UserContactList 
+                    contacts={contacts} 
+                    selectedContacts={selectedContacts} 
+                    setSelectedContacts={setSelectedContacts} 
+                />
             </FormControl>
             <Divider sx={{ mb: 2 }} />
             <Button
                 variant="contained"
                 color="primary"
                 fullWidth
-                onClick={handleSendMessage}
+                onClick={() => sendUserMessage(message, selectedContacts, scheduledTime, resetFields)}
             >
                 {scheduledTime ? "Agendar Mensagem" : "Enviar Agora"}
             </Button>
