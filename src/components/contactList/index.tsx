@@ -1,10 +1,10 @@
 import { List, ListItem, ListItemText, ListItemIcon } from "@mui/material";
 import { PersonAdd } from "@mui/icons-material";
 import { PhoneFormat } from "../../utils";
-import { Contact } from "../../types";
+import { BasicContact } from "../../types";
 
 interface ContactListProps {
-    contacts: Contact[];
+    contacts: BasicContact[];
 }
 
 export function ContactList({ contacts }: ContactListProps) {

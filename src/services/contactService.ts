@@ -1,14 +1,14 @@
 import { db } from "../db/firebaseConnection";
 import { collection, getDocs, addDoc } from "firebase/firestore";
-import { Contact } from "../types";
+import { BasicContact } from "../types";
 import { toast } from "react-toastify";
 
-export async function fetchContactsService (userId: string | undefined): Promise<Contact[]> {
+export async function fetchContactsService (userId: string | undefined): Promise<BasicContact[]> {
     try {
         const querySnapshot = await getDocs(collection(db, "contacts"));
         return querySnapshot.docs
             .filter(doc => doc.data().uid === userId)
-            .map(doc => ({ id: doc.id, ...doc.data() })) as Contact[];
+            .map(doc => ({ id: doc.id, ...doc.data() })) as BasicContact[];
     } catch (error) {
         console.error("Erro ao buscar contatos:", error);
         return [];

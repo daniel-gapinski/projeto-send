@@ -1,8 +1,8 @@
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../db/firebaseConnection";
-import { Connection, Contact } from "../types";
+import { Connection, BasicContact } from "../types";
 
-export async function addContactToConnectionService (contact:Contact, connection: Connection) {
+export async function addContactToConnectionService (contact:BasicContact, connection: Connection) {
     try {
         const currentContacts = Array.isArray(connection.contacts) ? connection.contacts : [];
         const isContactAlreadyAdded = currentContacts.some(c => c.id === contact.id);
