@@ -17,16 +17,13 @@ export function useContacts(userId: string | undefined) {
                 id: doc.id,
                 ...doc.data()
             })) as BasicContact[];
+
             console.log("Contatos atualizados:", contactsList);
-            setContacts(contactsList);
+            setContacts(contactsList);  // Atualize o estado aqui
         });
 
         return () => unsubscribe();
-    }, [userId]);
-
-    useEffect(() => {
-        console.log("Estado de contatos atualizado:", contacts);
-    }, [contacts]);
+    }, [userId]);  // Re-rende quando o userId mudar
 
     return { contacts };
 }

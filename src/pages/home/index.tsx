@@ -17,7 +17,7 @@ export default function Home() {
     useEffect(() => {
         console.log("Contatos atualizados do useeffect:", contacts);  // Verifique se está chegando os dados corretos
     }, [contacts]);
-    
+
 
     return (
         <Container>
@@ -42,7 +42,7 @@ export default function Home() {
                             <ListItemIcon><Group color="primary" /></ListItemIcon>
                             <ListItemText
                                 primary="Contatos"
-                                secondary={`${contacts.length} ${contacts.length > 1 ? "contatos cadastrados" : "contato cadastrado"}`}
+                                secondary={contacts.length === 0 ? "Carregando contatos..." : `${contacts.length} ${contacts.length > 1 ? "contatos cadastrados" : "contato cadastrado"}`}
                             />
                         </ListItem>
                     </Link>
@@ -61,6 +61,7 @@ export default function Home() {
                         </ListItem>
                     </Link>
                 </List>
+
 
 
             </Box>
