@@ -18,24 +18,24 @@ export default function AddContactModal ({ open, onClose, onSave }: AddContactMo
 
     return (
         <Modal open={open} onClose={onClose}>
-            <Box sx={{ background: "white", padding: 5}} className={classes.modalContainer}>
+            <Box className={classes.modalContainer} sx={{ background: "white", padding: 5}}>
                 <Typography variant="h6" component="h2" fontWeight="bold">
                     Adicionar Novo Contato
                 </Typography>
                 <TextField
-                    sx={{ mt: 2 }}
                     label="Nome do Contato"
                     variant="outlined"
                     fullWidth
+                    sx={{ mt: 2 }}
                     value={contactName}
                     onChange={(e) => setContactName(e.target.value)}
                 />
                 <TextField
-                    sx={{ mt: 2 }}
                     label="Telefone do Contato"
                     variant="outlined"
                     fullWidth
                     type="text"
+                    sx={{ mt: 2 }}
                     value={contactPhone}
                     onChange={(e) => setContactPhone(e.target.value)}
                 />
@@ -44,9 +44,9 @@ export default function AddContactModal ({ open, onClose, onSave }: AddContactMo
                         Cancelar
                     </Button>
                     <Button
-                        sx={{ marginLeft: 2 }}
                         variant="contained"
                         color="primary"
+                        sx={{ marginLeft: 2 }}
                         onClick={handleSave}
                         disabled={!contactName.trim() || !contactPhone.trim()}
                     >

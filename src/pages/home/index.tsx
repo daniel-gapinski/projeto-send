@@ -1,26 +1,8 @@
 import { Container } from "../../components/container";
-import { Box, Typography, List, ListItemIcon, ListItemText } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Box, Typography, List } from "@mui/material";
 import { Dashboard, Group, Message, Schedule } from '@mui/icons-material';
 import { useStyles } from "./Home.styles";
-import { ListItemLinkProps } from "../../types";
-
-const ListItemLink = ({ to, icon, primary, secondary }: ListItemLinkProps) => {
-    const classes = useStyles();
-
-    return (
-        <Link to={to}>
-            <Box className={classes.listItem}>
-                <ListItemIcon>{icon}</ListItemIcon>
-                <ListItemText 
-                    primary={primary} 
-                    secondary={secondary} 
-                    className={classes.listItemText} 
-                />
-            </Box>
-        </Link>
-    );
-};
+import ListItemLink from "../../components/listItemLink";
 
 export default function Home() {
     const classes = useStyles();

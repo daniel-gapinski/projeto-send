@@ -17,20 +17,20 @@ export default function AddConnectionModal({ open, onClose, onSave }: AddConnect
 
   return (
     <Modal open={open} onClose={onClose}>
-      <Box sx={{ background: "white", padding: 4 }} className={classes.modalBox}>
+      <Box className={classes.modalBox} sx={{ background: "white", padding: 4 }} >
         <Typography variant="h6" component="h2" gutterBottom>
           Adicionar Nova Conexão
         </Typography>
         <TextField
-          sx={{ mt: 1 }}
           label="Nome da Conexão"
           variant="outlined"
           fullWidth
+          sx={{ mt: 1 }}
           value={connectionName}
           onChange={(e) => setConnectionName(e.target.value)}
           className={classes.textField}
         />
-        <Box sx={{ mt: 2 }} className={classes.buttonBox}>
+        <Box className={classes.buttonBox} sx={{ mt: 2 }}>
           <Button variant="outlined" onClick={onClose}>Cancelar</Button>
           <Button variant="contained" onClick={handleSave} disabled={!connectionName.trim()}>
             Salvar

@@ -40,7 +40,7 @@ export const useStyles = makeStyles({
         color: "#6B7280",
     },
     link: {
-        color: "#1D4ED8", // Azul
+        color: "#1D4ED8",
         textDecoration: "none",
     },
 });

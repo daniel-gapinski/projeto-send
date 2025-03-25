@@ -1,6 +1,6 @@
 import { db } from "../db/firebaseConnection";
 import { collection, getDocs, addDoc } from "firebase/firestore";
-import { BasicContact } from "../types";
+import { AddContactProps, BasicContact } from "../types";
 import { toast } from "react-toastify";
 
 export async function fetchContactsService (userId: string | undefined): Promise<BasicContact[]> {
@@ -15,7 +15,7 @@ export async function fetchContactsService (userId: string | undefined): Promise
     }
 };
 
-export const addContactService = async (name: string, phone: string, userId: string | undefined, userName: string | undefined) => {
+export const addContactService = async ({ name, phone, userId, userName }: AddContactProps) => {
     try {
         await addDoc(collection(db, "contacts"), {
             name,

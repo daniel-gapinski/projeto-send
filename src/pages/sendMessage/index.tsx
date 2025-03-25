@@ -26,22 +26,22 @@ export default function SendMessage() {
             <BackButton children="Enviar Mensagem" />
             <TextField
                 label="Digite sua mensagem"
-                sx={{ marginTop: 3}}
                 multiline
                 rows={4}
                 variant="outlined"
                 fullWidth
+                sx={{ marginTop: 3}}
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 className={classes.input}
             />
             <TextField
-                sx={{ marginTop: 3}}
                 label="Agendar para"
                 type="datetime-local"
                 variant="outlined"
                 fullWidth
                 value={scheduledTime}
+                sx={{ marginTop: 3}}
                 onChange={(e) => setScheduledTime(e.target.value)}
                 className={classes.input}
                 InputLabelProps={{ shrink: true }}
@@ -57,10 +57,10 @@ export default function SendMessage() {
             </FormControl>
             <Divider className={classes.divider} />
             <Button
-                sx={{ marginTop: 3}}
                 variant="contained"
                 color="primary"
                 fullWidth
+                sx={{ marginTop: 3}}
                 onClick={() => sendUserMessage(message, selectedContacts, scheduledTime, resetFields)}
             >
                 {scheduledTime ? "Agendar Mensagem" : "Enviar Agora"}

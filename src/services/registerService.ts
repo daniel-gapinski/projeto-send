@@ -1,7 +1,8 @@
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../db/firebaseConnection";
+import { UserRegisterProps } from "../types";
 
-export async function registerUserService (email: string, password: string, name: string) {
+export async function registerUserService ({ email, password, name }: UserRegisterProps) {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         await updateProfile(userCredential.user, { displayName: name });

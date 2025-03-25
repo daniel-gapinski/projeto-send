@@ -1,14 +1,16 @@
 import { ReactNode } from "react";
 
-export type BasicContact = Pick<ContactProps, "id" | "name" | "phone">;
-
-export interface ContactProps {
+export interface BaseContact {
     id: string;
     name: string;
-    owner: string;
     phone: string;
     uid: string;
+    owner: string;
 }
+
+export type BasicContact = Pick<BaseContact, "id" | "name" | "phone">;
+
+export interface ContactProps extends BaseContact {}
 
 export interface Connection {
     id: string;
@@ -18,14 +20,18 @@ export interface Connection {
 
 export interface FirestoreConnection extends Omit<Connection, "id"> {}
 
-export interface Message {
-    id: string;
+export interface Message extends Omit<BaseContact, "phone"> {
     text: string;
-    contacts: ContactProps[];
     status: string;
     scheduledTime: string | null;
     sentAt: string | null;
+    contacts: ContactProps[];
 }
+
+export interface FilterMessage extends Omit<Message, "contacts" | "scheduledTime" | "sentAt"> {}
+
+export interface NewFilterMessage extends Partial<Omit<Message, "contacts">> {}
+
 
 export interface AddContactToConnectionModalProps {
     open: boolean;
@@ -59,12 +65,7 @@ export interface UseAddContactToConnectionProps {
 }
 
 export interface MessageCardProps {
-    message: {
-        id: string;
-        text: string;
-        status: string;
-        scheduledTime?: string;
-    };
+    message: Omit<Message, "contacts">;
 }
 
 export interface AddContactButtonProps {
@@ -93,55 +94,51 @@ export interface MenuItem {
     text: string;
     icon: React.ReactNode;
     link: string;
-  }
-  
-  export interface TemporaryDrawerProps {
+}
+
+export interface TemporaryDrawerProps {
     open: boolean;
     toggleDrawer: (newOpen: boolean) => () => void;
-  }
+}
 
-  export interface AddConnectionModalProps {
+export interface AddConnectionModalProps {
     open: boolean;
     onClose: () => void;
     onSave: (name: string) => void;
-  }
-  
+}
 
-  
-export interface NewContact {
-    id: string;
-    name: string;
-    owner: string;
-    phone: string;
-    uid: string;
-    scheduledTime: string;
-    sentAt: string;
-    status: string;
-    text: string;
-  }
-  
-  export interface NewMessage {
-    id: string;
-    contacts: NewContact[];
-    status: string;
-  }
-
-export interface OpenNewContact {
-    id: string;
-    name: string;
-    owner: string;
-    phone: string;
-    uid: string;
+export interface NewContact extends BaseContact {
     scheduledTime: string;
     sentAt: string;
     status: string;
     text: string;
 }
-  
-export interface OpenNewMessage {
+
+export interface NewMessage {
     id: string;
     contacts: NewContact[];
     status: string;
+}
+
+export interface OpenNewMessage extends NewMessage {
     text: string;
     scheduledTime?: string;
+}
+
+export interface AddContactProps {
+    name: string;
+    phone: string;
+    userId: string | undefined;
+    userName: string | undefined;
+}
+
+export interface UserRegisterProps {
+    email: string;
+    password: string;
+    name: string;
+}
+
+export interface FilterProps {
+    filter: string;
+    setFilter: (value: string) => void;
 }

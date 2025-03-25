@@ -28,7 +28,11 @@ export function useRegister () {
 
     const onSubmit = async (data: FormData) => {
         try {
-            const user = await registerUserService(data.email, data.password, data.name);
+            const user = await registerUserService({
+                email:data.email, 
+                password:data.password, 
+                name:data.name
+            });
             handleInfoUser({
                 name: data.name,
                 email: data.email,

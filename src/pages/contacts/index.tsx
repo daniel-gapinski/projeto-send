@@ -20,7 +20,12 @@ export default function Contacts() {
         if (!user?.uid || !user?.name) {
             return;
         }
-        await addContactService(name, phone, user.uid, user.name);
+        await addContactService({
+            name:name, 
+            phone: phone, 
+            userId:user.uid, 
+            userName: user.name
+        });
         setOpenModal(false);
     };
 
