@@ -7,12 +7,14 @@ import { useContacts } from "../../hooks/useContacts";
 import { addContactService } from "../../services/contactService";
 import { ContactList } from "../../components/contactList";
 import { BackButton } from "../../components/backButton";
+import { useStyles } from "./Contacts.styles";
 
 export default function Contacts() {
     const { user } = useContext(AuthContext);
     const [openModal, setOpenModal] = useState(false);
 
     const { contacts } = useContacts(user?.uid || "");
+    const classes = useStyles();
 
     const handleSaveContact = async (name: string, phone: string) => {
         if (!user?.uid || !user?.name) {
@@ -24,15 +26,15 @@ export default function Contacts() {
 
     return (
         <Container>
-            <Box className="p-6 bg-white rounded-lg shadow-lg">
-                  <BackButton children="Gerenciar Contatos" />
-                <Typography className="text-gray-600 mb-8">
+            <Box className={classes.container}>
+                <BackButton children="Gerenciar Contatos" />
+                <Typography className={classes.descriptionText}>
                     Aqui você pode adicionar, editar ou excluir contatos de suas conexões.
                 </Typography>
-                
+
                 <ContactList contacts={contacts} />
 
-                <Box className="mt-6">
+                <Box className={classes.buttonContainer}>
                     <Button onClick={() => setOpenModal(true)} variant="contained" color="primary" className="w-full">
                         Adicionar Novo Contato
                     </Button>

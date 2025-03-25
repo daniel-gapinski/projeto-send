@@ -75,3 +75,73 @@ export interface AddContactButtonProps {
 export interface ConnectionDetailListProps {
     contacts: ContactProps[];
 }
+
+export interface ListItemLinkProps {
+    to: string;
+    icon: ReactNode;
+    primary: string;
+    secondary: string;
+}
+
+export interface AddContactModalProps {
+    open: boolean;
+    onClose: () => void;
+    onSave: (contactName: string, contactPhone: string) => void;
+}
+
+export interface MenuItem {
+    text: string;
+    icon: React.ReactNode;
+    link: string;
+  }
+  
+  export interface TemporaryDrawerProps {
+    open: boolean;
+    toggleDrawer: (newOpen: boolean) => () => void;
+  }
+
+  export interface AddConnectionModalProps {
+    open: boolean;
+    onClose: () => void;
+    onSave: (name: string) => void;
+  }
+  
+
+  
+export interface NewContact {
+    id: string;
+    name: string;
+    owner: string;
+    phone: string;
+    uid: string;
+    scheduledTime: string;
+    sentAt: string;
+    status: string;
+    text: string;
+  }
+  
+  export interface NewMessage {
+    id: string;
+    contacts: NewContact[];
+    status: string;
+  }
+
+export interface OpenNewContact {
+    id: string;
+    name: string;
+    owner: string;
+    phone: string;
+    uid: string;
+    scheduledTime: string;
+    sentAt: string;
+    status: string;
+    text: string;
+}
+  
+export interface OpenNewMessage {
+    id: string;
+    contacts: NewContact[];
+    status: string;
+    text: string;
+    scheduledTime?: string;
+}

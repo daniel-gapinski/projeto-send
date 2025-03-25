@@ -1,6 +1,7 @@
 import { db } from "../db/firebaseConnection";
 import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 import { ContactProps, FirestoreConnection } from "../types";
+import { toast } from "react-toastify";
 
 export async function getConnectionDetails (id: string) {
     try {
@@ -16,7 +17,7 @@ export async function getConnectionDetails (id: string) {
             };
         }
     } catch (error) {
-        console.error("Erro ao buscar os detalhes da conexão:", error);
+        toast.error("Erro ao buscar os detalhes da conexão!");
     }
 };
 
@@ -32,6 +33,6 @@ export const getContacts = async () => {
         }));
         return contactsList;
     } catch (error) {
-        console.error("Erro ao buscar contatos:", error);
+        toast.error("Erro ao buscar contatos");
     }
 };

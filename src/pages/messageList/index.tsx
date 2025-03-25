@@ -4,14 +4,16 @@ import { Link } from "react-router-dom";
 import { useMessages } from "../../hooks/useMessages";
 import UserMessageCard from "../../components/userMessageCard";
 import { BackButton } from "../../components/backButton";
+import { useStyles } from './MessageList.styles';
 
-export default function MessageList () {
+export default function MessageList() {
     const { filteredMessages, filter, setFilter } = useMessages();
+    const classes = useStyles();
 
     return (
         <Container>
-            <BackButton children="Gerenciar Mensagens" />
-            <FormControl fullWidth sx={{ mb: 2, mt: 4 }}>
+            <BackButton children="Gerenciar Mensagens"/>
+            <FormControl fullWidth sx={{ marginTop: 3}}>
                 <InputLabel>Status</InputLabel>
                 <Select
                     value={filter}
@@ -23,17 +25,16 @@ export default function MessageList () {
                     <MenuItem value="enviada">Enviadas</MenuItem>
                 </Select>
             </FormControl>
-            <List>
+            <List className={classes.list}>
                 {filteredMessages.map((message) => (
                     <UserMessageCard key={message.id} message={message} />
                 ))}
             </List>
             <Link to={"/send-message"}>
-                <Button variant="contained" color="primary" fullWidth sx={{ mt: 4, mb: 5 }}>
+                <Button variant="contained" color="primary" fullWidth className={classes.button}>
                     Nova Mensagem
                 </Button>
             </Link>
         </Container>
     );
-};
-
+}

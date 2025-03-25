@@ -1,14 +1,12 @@
 import { useState } from 'react';
 import { Modal, Box, TextField, Button, Typography } from '@mui/material';
+import { useStyles } from './AddConnectionModal.styles';
+import { AddConnectionModalProps } from '../../types';
 
-interface AddConnectionModalProps {
-  open: boolean;
-  onClose: () => void;
-  onSave: (name: string) => void;
-}
 
 export default function AddConnectionModal({ open, onClose, onSave }: AddConnectionModalProps) {
   const [connectionName, setConnectionName] = useState('');
+  const classes = useStyles();
 
   const handleSave = () => {
     if (connectionName.trim()) {
@@ -19,30 +17,20 @@ export default function AddConnectionModal({ open, onClose, onSave }: AddConnect
 
   return (
     <Modal open={open} onClose={onClose}>
-      <Box
-        sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 400,
-          bgcolor: 'background.paper',
-          boxShadow: 24,
-          p: 4,
-        }}
-      >
+      <Box sx={{ background: "white", padding: 4 }} className={classes.modalBox}>
         <Typography variant="h6" component="h2" gutterBottom>
           Adicionar Nova Conexão
         </Typography>
         <TextField
+          sx={{ mt: 1 }}
           label="Nome da Conexão"
           variant="outlined"
           fullWidth
           value={connectionName}
           onChange={(e) => setConnectionName(e.target.value)}
-          sx={{ mb: 2 }}
+          className={classes.textField}
         />
-        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box sx={{ mt: 2 }} className={classes.buttonBox}>
           <Button variant="outlined" onClick={onClose}>Cancelar</Button>
           <Button variant="contained" onClick={handleSave} disabled={!connectionName.trim()}>
             Salvar
@@ -52,4 +40,3 @@ export default function AddConnectionModal({ open, onClose, onSave }: AddConnect
     </Modal>
   );
 };
-

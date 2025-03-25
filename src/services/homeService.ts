@@ -1,5 +1,6 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../db/firebaseConnection"; 
+import { toast } from "react-toastify";
 
 export async function fetchConnectionsService (uid: string) {
     try {
@@ -11,7 +12,7 @@ export async function fetchConnectionsService (uid: string) {
             ...doc.data()
         }));
     } catch (error) {
-        console.error("Erro ao buscar conexões:", error);
+        toast.error("Erro ao buscar conexões!");
         return [];
     }
 };
@@ -26,7 +27,7 @@ export const fetchContactsService = async (uid: string) => {
             ...doc.data()
         }));
     } catch (error) {
-        console.error("Erro ao buscar contatos:", error);
+        toast.error("Erro ao buscar contatos!");
         return [];
     }
 };

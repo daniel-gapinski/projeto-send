@@ -2,18 +2,20 @@ import { List, ListItem, ListItemText, ListItemIcon, Typography } from "@mui/mat
 import { GroupAdd } from "@mui/icons-material";
 import { PhoneFormat } from "../../utils";
 import { ConnectionDetailListProps } from "../../types";
-
+import { useStyles } from "./ConnectionDetailList.styles";
 
 const ConnectionDetailList: React.FC<ConnectionDetailListProps> = ({ contacts }) => {
+    const classes = useStyles();
+
     if (contacts.length === 0) {
-        return <Typography className="text-gray-500">Nenhum contato cadastrado nesta conexão.</Typography>;
+        return <Typography className={classes.noContacts}>Nenhum contato cadastrado nesta conexão.</Typography>;
     }
 
     return (
         <List>
             {contacts.map((contact) => (
-                <ListItem key={contact.id} className="border-b border-gray-200">
-                    <ListItemIcon><GroupAdd className="text-blue-500" /></ListItemIcon>
+                <ListItem key={contact.id} className={classes.listItem}>
+                    <ListItemIcon><GroupAdd className={classes.icon} /></ListItemIcon>
                     <ListItemText primary={contact.name} secondary={`Telefone: ${PhoneFormat(contact.phone)}`} />
                 </ListItem>
             ))}

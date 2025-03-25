@@ -1,6 +1,7 @@
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../db/firebaseConnection";
 import { Connection, BasicContact } from "../types";
+import { toast } from "react-toastify";
 
 export async function addContactToConnectionService (contact:BasicContact, connection: Connection) {
     try {
@@ -15,7 +16,7 @@ export async function addContactToConnectionService (contact:BasicContact, conne
         await updateDoc(connectionRef, { contacts: updatedContacts });
         return true;
     } catch (error) {
-        console.error("Erro ao adicionar contato à conexão:", error);
+        toast.error("Erro ao adicionar contato à conexão:");
         throw error;
     }
 };

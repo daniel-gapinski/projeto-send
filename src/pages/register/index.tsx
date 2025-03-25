@@ -4,9 +4,11 @@ import { useRegister } from "../../hooks/useRegister";
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import { signOut } from "firebase/auth";
 import { auth } from "../../db/firebaseConnection";
+import { useStyles } from "./Register.styles";
 
 export default function Register() {
     const { register, handleSubmit, errors, onSubmit, error } = useRegister();
+    const classes = useStyles();
 
     useEffect(() => {
         async function handleLogout() {
@@ -16,22 +18,24 @@ export default function Register() {
     }, []);
 
     return (
-        <Box display="flex" justifyContent="center" alignItems="center" height="100vh" bgcolor="#F3F4F6" p={2}>
-            <Paper elevation={3} sx={{ padding: 4, borderRadius: 2, width: "100%", maxWidth: 400, border: "1px solid #D1D5DB" }}>
-                <Typography variant="h5" textAlign="center" fontWeight="600" color="textPrimary" mb={3}>
+        <Box className={classes.container}>
+            <Paper elevation={3} className={classes.paper}>
+                <Typography variant="h5" className={classes.header}>
                     Registre-se!
                 </Typography>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <TextField
+                        sx={{marginBottom: 2, marginTop: 2}}
                         fullWidth
                         label="Nome Completo"
                         {...register("name")}
                         error={!!errors.name}
                         helperText={errors.name?.message}
                         variant="outlined"
-                        margin="normal"
+                        className={classes.input}
                     />
                     <TextField
+                        sx={{marginBottom: 2}}
                         fullWidth
                         label="E-mail"
                         type="email"
@@ -39,31 +43,33 @@ export default function Register() {
                         error={!!errors.email}
                         helperText={errors.email?.message}
                         variant="outlined"
-                        margin="normal"
+                        className={classes.input}
                     />
                     <TextField
                         fullWidth
+                        sx={{marginBottom: 2}}
                         label="Senha"
                         type="password"
                         {...register("password")}
                         error={!!errors.password}
                         helperText={errors.password?.message}
                         variant="outlined"
-                        margin="normal"
+                        className={classes.input}
                     />
-                    {error && <Typography color="error" align="center" mt={2}>{error}</Typography>}
+                    {error && <Typography className={classes.error}>{error}</Typography>}
                     <Button
+                        sx={{marginBottom: 2}}
                         type="submit"
                         fullWidth
                         variant="contained"
-                        sx={{mt: 2}}
+                        className={classes.button}
                     >
                         Registrar
                     </Button>
                 </form>
-                <Typography textAlign="center" mt={2} fontSize="0.875rem" color="textSecondary">
-                    Já possui uma conta?{' '}
-                    <Link to="/login" className="text-blue-500">
+                <Typography className={classes.loginText}>
+                    Já possui uma conta?{" "}
+                    <Link to="/login" className={classes.link}>
                         Faça login
                     </Link>
                 </Typography>

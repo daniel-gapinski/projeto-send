@@ -2,13 +2,14 @@ import { db } from "../db/firebaseConnection";
 import { collection, getDocs } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { Message } from "../types";
+import { toast } from "react-toastify";
 
 export async function fetchMessagesService (): Promise<Message[]> {
     try {
         const auth = getAuth();
         const user = auth.currentUser;
         if (!user) {
-            console.error("Usuário não autenticado!");
+            toast.error("Usuário não autenticado!");
             return [];
         }
 
@@ -38,7 +39,7 @@ export async function fetchMessagesService (): Promise<Message[]> {
 
         return messagesList;
     } catch (error) {
-        console.error("Erro ao buscar mensagens:", error);
+        toast.error("Erro ao buscar mensagens!");
         return [];
     }
 };

@@ -8,7 +8,7 @@ import AddContactToConnectionModal from "../../components/addContactModal";
 import ConnectionDetailList from "../../components/connectionDetailList";
 import { BackButton } from "../../components/backButton";
 import AddContactButton from "../../components/buttons/AddContactButton";
-
+import { useStyles } from "./ConnectionDetail.styles";
 
 export default function ConnectionDetail() {
     const { id } = useParams();
@@ -16,6 +16,7 @@ export default function ConnectionDetail() {
     const [openContactModal, setOpenContactModal] = useState(false);
 
     const { connection, contacts, fetchConnectionDetails } = useConnectionDetails(id);
+    const classes = useStyles();
 
     const handleOpenContactModal = (connection: Connection) => {
         setSelectedConnection(connection);
@@ -30,8 +31,8 @@ export default function ConnectionDetail() {
     if (!connection) {
         return (
             <Container>
-                <Box className="p-6 bg-white rounded-lg shadow-lg">
-                    <Typography className="text-2xl font-semibold text-gray-800 mb-6">Carregando Detalhes...</Typography>
+                <Box className={classes.loadingContainer}>
+                    <Typography className={classes.loadingText}>Carregando Detalhes...</Typography>
                 </Box>
             </Container>
         );
@@ -39,17 +40,19 @@ export default function ConnectionDetail() {
 
     return (
         <Container>
-            <Box className="p-6 bg-white rounded-lg shadow-lg">
+            <Box className={classes.container}>
                 <BackButton children="Detalhes da Conexão" />
-                <Typography className="text-gray-600 mb-6">Aqui você pode visualizar os detalhes da conexão selecionada.</Typography>
+                <Typography className={classes.descriptionText}>
+                    Aqui você pode visualizar os detalhes da conexão selecionada.
+                </Typography>
 
-                <Typography className="text-xl font-semibold text-gray-700 mb-4">Nome da Conexão</Typography>
-                <Typography className="text-gray-600 mb-6">{connection.name}</Typography>
+                <Typography className={classes.sectionTitle}>Nome da Conexão</Typography>
+                <Typography className={classes.connectionName}>{connection.name}</Typography>
 
-                <Typography className="text-xl font-semibold text-gray-700 mb-4">Contatos Cadastrados</Typography>
+                <Typography className={classes.sectionTitle}>Contatos Cadastrados</Typography>
                 <ConnectionDetailList contacts={connection.contacts} />
 
-                <Box className="mt-6">
+                <Box className={classes.buttonContainer}>
                     <AddContactButton connection={connection} onClick={handleOpenContactModal} />
                 </Box>
             </Box>
@@ -63,7 +66,6 @@ export default function ConnectionDetail() {
                     updateConnection={fetchConnectionDetails}
                 />
             )}
-
         </Container>
     );
 }

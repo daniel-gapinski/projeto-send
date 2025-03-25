@@ -1,10 +1,12 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
 import { useAddContactToConnection } from "../../hooks/useAddContactToConnection";
 import { AddContactToConnectionModalProps } from "../../types";
+import { useStyles } from "./AddContactToConnectionModal.styles";
 
 export default function AddContactToConnectionModal({ open, onClose, connection, contacts, updateConnection }: AddContactToConnectionModalProps) {
-    
-    const {selectedContact, setSelectedContact, handleAddContact, filteredContacts} = useAddContactToConnection({ connection, contacts, onClose });
+    const { selectedContact, setSelectedContact, handleAddContact, filteredContacts } = useAddContactToConnection({ connection, contacts, onClose });
+    const classes = useStyles();
+
     const handleSaveContact = async () => {
         await handleAddContact();
         updateConnection();
@@ -13,9 +15,9 @@ export default function AddContactToConnectionModal({ open, onClose, connection,
 
     return (
         <Dialog open={open} onClose={onClose}>
-            <DialogTitle>Adicionar Contato à {connection?.name}</DialogTitle>
-            <DialogContent>
-                <FormControl fullWidth margin="dense">
+            <DialogTitle className={classes.dialogTitle}>Adicionar Contato à {connection?.name}</DialogTitle>
+            <DialogContent className={classes.dialogContent}>
+                <FormControl fullWidth margin="dense" className={classes.formControl}>
                     <InputLabel>Selecione um Contato</InputLabel>
                     <Select
                         value={selectedContact}
@@ -31,8 +33,8 @@ export default function AddContactToConnectionModal({ open, onClose, connection,
                 </FormControl>
             </DialogContent>
             <DialogActions>
-                <Button onClick={onClose}>Cancelar</Button>
-                <Button onClick={handleSaveContact} color="primary">Adicionar</Button>
+                <Button onClick={onClose} className={classes.cancelButton}>Cancelar</Button>
+                <Button onClick={handleSaveContact} color="primary" className={classes.addButton}>Adicionar</Button>
             </DialogActions>
         </Dialog>
     );

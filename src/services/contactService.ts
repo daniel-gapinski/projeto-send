@@ -10,7 +10,7 @@ export async function fetchContactsService (userId: string | undefined): Promise
             .filter(doc => doc.data().uid === userId)
             .map(doc => ({ id: doc.id, ...doc.data() })) as BasicContact[];
     } catch (error) {
-        console.error("Erro ao buscar contatos:", error);
+        toast.error("Erro ao buscar contatos!");
         return [];
     }
 };

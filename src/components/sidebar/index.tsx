@@ -10,14 +10,16 @@ import TemporaryDrawer from '../drawer';
 import { signOut } from 'firebase/auth';
 import { toast } from 'react-toastify';
 import { auth } from "../../db/firebaseConnection";
+import { useStyles } from './Sidebar.styles';
 
 export default function Sidebar() {
   const [openDrawer, setOpenDrawer] = React.useState(false);
+  const classes = useStyles();
 
   async function handleLogout() {
     await signOut(auth);
     toast.success("Até breve!");
-}
+  }
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpenDrawer(newOpen);
@@ -25,19 +27,20 @@ export default function Sidebar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ backgroundColor: '#1565C0' }}>
-      <Toolbar sx={{ maxWidth: "1280px", width: "100%", margin: "0 auto" }}>
+      <AppBar position="static" className={classes.appBar}>
+        <Toolbar className={classes.toolbar}>
           <IconButton
             onClick={toggleDrawer(true)}
             size="large"
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ mr: 2 }}
+            className={classes.iconButton}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}></Typography>
+          <Typography variant="h6" component="div" className={classes.typography}></Typography>
+
           {auth && (
             <div>
               <IconButton
@@ -46,7 +49,7 @@ export default function Sidebar() {
                 onClick={handleLogout}
                 color="inherit"
               >
-                <BsBoxArrowRight size={20}  />
+                <BsBoxArrowRight size={20} />
               </IconButton>
             </div>
           )}
@@ -54,7 +57,6 @@ export default function Sidebar() {
       </AppBar>
 
       <TemporaryDrawer open={openDrawer} toggleDrawer={toggleDrawer} />
-
     </Box>
   );
 }

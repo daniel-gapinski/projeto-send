@@ -1,15 +1,12 @@
 import { useState } from 'react';
 import { Modal, Box, TextField, Button, Typography } from '@mui/material';
+import { useStyles } from './AddContactModal.styles';
+import { AddContactModalProps } from '../../types';
 
-interface AddContactModalProps {
-    open: boolean;
-    onClose: () => void;
-    onSave: (contactName: string, contactEmail: string) => void;
-}
-
-const AddContactModal = ({ open, onClose, onSave }: AddContactModalProps) => {
+export default function AddContactModal ({ open, onClose, onSave }: AddContactModalProps) {
     const [contactName, setContactName] = useState('');
     const [contactPhone, setContactPhone] = useState('');
+    const classes = useStyles();
 
     const handleSave = () => {
         if (contactName.trim() && contactPhone.trim()) {
@@ -21,26 +18,12 @@ const AddContactModal = ({ open, onClose, onSave }: AddContactModalProps) => {
 
     return (
         <Modal open={open} onClose={onClose}>
-            <Box
-                sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: 420,
-                    bgcolor: 'background.paper',
-                    borderRadius: 3,
-                    boxShadow: 6,
-                    p: 4,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 2,
-                }}
-            >
+            <Box sx={{ background: "white", padding: 5}} className={classes.modalContainer}>
                 <Typography variant="h6" component="h2" fontWeight="bold">
                     Adicionar Novo Contato
                 </Typography>
                 <TextField
+                    sx={{ mt: 2 }}
                     label="Nome do Contato"
                     variant="outlined"
                     fullWidth
@@ -48,6 +31,7 @@ const AddContactModal = ({ open, onClose, onSave }: AddContactModalProps) => {
                     onChange={(e) => setContactName(e.target.value)}
                 />
                 <TextField
+                    sx={{ mt: 2 }}
                     label="Telefone do Contato"
                     variant="outlined"
                     fullWidth
@@ -55,11 +39,12 @@ const AddContactModal = ({ open, onClose, onSave }: AddContactModalProps) => {
                     value={contactPhone}
                     onChange={(e) => setContactPhone(e.target.value)}
                 />
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
+                <Box  sx={{ mt: 2 }} className={classes.buttonsContainer}>
                     <Button variant="outlined" color="error" onClick={onClose}>
                         Cancelar
                     </Button>
                     <Button
+                        sx={{ marginLeft: 2 }}
                         variant="contained"
                         color="primary"
                         onClick={handleSave}
@@ -73,5 +58,3 @@ const AddContactModal = ({ open, onClose, onSave }: AddContactModalProps) => {
     );
 };
 
-
-export default AddContactModal;

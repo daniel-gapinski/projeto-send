@@ -9,6 +9,5 @@ export async function saveConnection (newConnection: { name: string; uid: string
         toast.success("Conexão criada com sucesso!");
     } catch (err) {
         toast.error("Erro ao criar conexão!");
-        console.error(err);
     }
 };

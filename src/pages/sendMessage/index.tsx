@@ -1,19 +1,19 @@
 import { useState } from "react";
 import { Container } from "../../components/container";
-import { Typography, TextField, FormControl, FormLabel, Divider, Button } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useNavigate } from "react-router-dom";
+import { TextField, FormControl, FormLabel, Divider, Button } from "@mui/material";
 import { useFetchContacts } from "../../hooks/useFetchContacts";
 import { sendUserMessage } from "../../services/sendUserMessageService";
 import { UserContactList } from "../../components/userContactList/nidex";
 import { ContactProps } from "../../types";
+import { useStyles } from "./SendMessage.styles";
+import { BackButton } from "../../components/backButton";
 
 export default function SendMessage() {
-    const navigate = useNavigate();
     const contacts = useFetchContacts();
     const [selectedContacts, setSelectedContacts] = useState<ContactProps[]>([]);
     const [message, setMessage] = useState("");
     const [scheduledTime, setScheduledTime] = useState("");
+    const classes = useStyles();
 
     const resetFields = () => {
         setMessage("");
@@ -23,34 +23,31 @@ export default function SendMessage() {
 
     return (
         <Container>
-            <Typography
-                variant="h4"
-                className="font-semibold text-gray-800 mb-6 flex items-center cursor-pointer"
-                onClick={() => navigate(-1)}
-            >
-                <ArrowBackIcon className="mr-2" /> Enviar Mensagem
-            </Typography>
+            <BackButton children="Enviar Mensagem" />
             <TextField
                 label="Digite sua mensagem"
+                sx={{ marginTop: 3}}
                 multiline
                 rows={4}
                 variant="outlined"
                 fullWidth
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                sx={{ mb: 2, mt: 3 }}
+                className={classes.input}
             />
             <TextField
+                sx={{ marginTop: 3}}
                 label="Agendar para"
                 type="datetime-local"
                 variant="outlined"
                 fullWidth
                 value={scheduledTime}
                 onChange={(e) => setScheduledTime(e.target.value)}
-                sx={{ mb: 2 }}
+                className={classes.input}
                 InputLabelProps={{ shrink: true }}
             />
-            <FormControl component="fieldset" sx={{ mb: 2 }}>
+            <FormControl component="fieldset" 
+                sx={{ marginTop: 3}}>
                 <FormLabel component="legend">Selecionar Contatos</FormLabel>
                 <UserContactList 
                     contacts={contacts} 
@@ -58,8 +55,9 @@ export default function SendMessage() {
                     setSelectedContacts={setSelectedContacts} 
                 />
             </FormControl>
-            <Divider sx={{ mb: 2 }} />
+            <Divider className={classes.divider} />
             <Button
+                sx={{ marginTop: 3}}
                 variant="contained"
                 color="primary"
                 fullWidth
