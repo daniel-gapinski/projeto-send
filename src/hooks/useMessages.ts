@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
-import { fetchMessagesService } from "../services/messageService";
+import { db } from "../db/firebaseConnection";
+import { collection, onSnapshot } from "firebase/firestore";
 
-export function useMessages () {
+export function useMessages() {
     const [messages, setMessages] = useState<any[]>([]);
     const [filter, setFilter] = useState("todas");
 
     useEffect(() => {
-        const loadMessages = async () => {
-            const messagesData = await fetchMessagesService();
+        const unsubscribe = onSnapshot(collection(db, "messages"), (snapshot) => {
+            const messagesData = snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
             setMessages(messagesData);
-        };
+        });
 
-        loadMessages();
+        return () => unsubscribe();
     }, []);
 
     const filteredMessages = messages.filter((msg) =>

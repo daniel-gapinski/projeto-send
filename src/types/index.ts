@@ -57,3 +57,12 @@ export interface UseAddContactToConnectionProps {
     contacts: ContactProps[];
     onClose: () => void;
 }
+
+export interface MessageCardProps {
+    message: {
+        id: string;
+        text: string;
+        status: string;
+        scheduledTime?: string;
+    };
+}

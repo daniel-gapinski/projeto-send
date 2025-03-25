@@ -1,15 +1,8 @@
 import { Card, CardContent, Typography, Divider } from "@mui/material";
-
-interface MessageCardProps {
-    message: {
-        id: string;
-        text: string;
-        status: string;
-        scheduledTime?: string;
-    };
-}
+import { MessageCardProps } from "../../types";
 
 export default function UserMessageCard ({ message }: MessageCardProps){
+    
     return (
         <Card key={message.id} sx={{ mb: 2 }}>
             <CardContent>
