@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Container } from "../../components/container";
 import { Box, Typography, ListItem, ListItemText, ListItemIcon, List } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -13,6 +13,11 @@ export default function Home() {
     const { connections } = useConnections(user?.uid || "");
     const { contacts } = useContacts(user?.uid || "");
     console.log("Contatos no Home:", contacts);
+
+    useEffect(() => {
+        console.log("Contatos atualizados do useeffect:", contacts);  // Verifique se está chegando os dados corretos
+    }, [contacts]);
+    
 
     return (
         <Container>
@@ -33,12 +38,13 @@ export default function Home() {
                     </Link>
 
                     <Link to="/contacts">
-                        {contacts.map((contact) => (
-                            <ListItem key={contact.id} className="border-b border-gray-200 hover:bg-gray-100 rounded-lg">
-                                <ListItemIcon><Group color="primary" /></ListItemIcon>
-                                <ListItemText primary={contact.name} secondary={contact.phone} />
-                            </ListItem>
-                        ))}
+                        <ListItem className="border-b border-gray-200 hover:bg-gray-100 rounded-lg">
+                            <ListItemIcon><Group color="primary" /></ListItemIcon>
+                            <ListItemText
+                                primary="Contatos"
+                                secondary={`${contacts.length} ${contacts.length > 1 ? "contatos cadastrados" : "contato cadastrado"}`}
+                            />
+                        </ListItem>
                     </Link>
 
                     <Link to="/message-list">
