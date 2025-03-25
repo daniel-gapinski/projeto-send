@@ -9,11 +9,6 @@ export const useConnections = (userId: string | undefined) => {
     useEffect(() => {
         if (!userId) return;
 
-        const storedConnections = localStorage.getItem(`connections_${userId}`);
-        if (storedConnections) {
-            setConnections(JSON.parse(storedConnections));
-        }
-
         const connectionsRef = collection(db, "connections");
         const q = query(connectionsRef, where("uid", "==", userId));
 
@@ -23,8 +18,6 @@ export const useConnections = (userId: string | undefined) => {
                 ...doc.data()
             })) as Connection[];
             setConnections(connectionsList);
-
-            localStorage.setItem(`connections_${userId}`, JSON.stringify(connectionsList));
         });
 
         return () => unsubscribe();
