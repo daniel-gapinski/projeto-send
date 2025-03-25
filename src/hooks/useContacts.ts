@@ -9,6 +9,11 @@ export function useContacts(userId: string | undefined) {
     useEffect(() => {
         if (!userId) return;
 
+        const storedContacts = localStorage.getItem(`contacts_${userId}`);
+        if (storedContacts) {
+            setContacts(JSON.parse(storedContacts));
+        }
+
         const contactsRef = collection(db, "contacts");
         const q = query(contactsRef, where("uid", "==", userId));
 
@@ -18,6 +23,8 @@ export function useContacts(userId: string | undefined) {
                 ...doc.data()
             })) as BasicContact[];
             setContacts(contactsList);
+
+            localStorage.setItem(`contacts_${userId}`, JSON.stringify(contactsList));
         });
 
         return () => unsubscribe();
