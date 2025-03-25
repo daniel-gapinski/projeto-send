@@ -12,14 +12,13 @@ export default function Contacts() {
     const { user } = useContext(AuthContext);
     const [openModal, setOpenModal] = useState(false);
 
-    const { contacts, fetchContacts } = useContacts(user?.uid || "");
+    const { contacts } = useContacts(user?.uid || "");
 
     const handleSaveContact = async (name: string, phone: string) => {
         if (!user?.uid || !user?.name) {
             return;
         }
         await addContactService(name, phone, user.uid, user.name);
-        fetchContacts();
         setOpenModal(false);
     };
 

@@ -10,7 +10,7 @@ import { ConnectionsList } from "../../components/connectionList";
 
 export default function Connections() {
     const { user } = useContext(AuthContext);
-    const { connections, fetchConnections } = useConnections(user?.uid);
+    const { connections } = useConnections(user?.uid); 
 
     const [openModal, setOpenModal] = useState(false);
 
@@ -27,7 +27,6 @@ export default function Connections() {
             };
 
             await saveConnection(newConnection);
-            fetchConnections(user.uid);
             handleCloseModal();
         }
     };
