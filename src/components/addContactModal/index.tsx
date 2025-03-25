@@ -17,7 +17,7 @@ export default function AddContactToConnectionModal({ open, onClose, connection,
     };
 
     return (
-        <Dialog open={open} onClose={onClose} disableEnforceFocus>
+        <Dialog open={open} onClose={onClose}>
             <DialogTitle>Adicionar Contato à {connection?.name}</DialogTitle>
             <DialogContent>
                 <FormControl fullWidth margin="dense">
