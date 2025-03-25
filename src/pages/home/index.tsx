@@ -34,7 +34,10 @@ export default function Home() {
                     <Link to="/contacts">
                         <ListItem className="border-b border-gray-200 hover:bg-gray-100 rounded-lg">
                             <ListItemIcon><Group color="primary" /></ListItemIcon>
-                            <ListItemText primary="Contatos" secondary={`${contacts.length} ${contacts.length > 1 ? "contatos cadastrados" : "contato cadastrado"}`} />
+                            <ListItemText
+                                primary="Contatos"
+                                secondary={`${contacts.length} ${contacts.length > 1 ? "contatos cadastrados" : "contato cadastrado"}`}
+                            />
                         </ListItem>
                     </Link>
 
@@ -52,6 +55,8 @@ export default function Home() {
                         </ListItem>
                     </Link>
                 </List>
+
+
             </Box>
         </Container>
     );

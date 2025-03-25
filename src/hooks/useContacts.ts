@@ -24,5 +24,9 @@ export function useContacts(userId: string | undefined) {
         return () => unsubscribe();
     }, [userId]);
 
+    useEffect(() => {
+        console.log("Estado de contatos atualizado:", contacts);
+    }, [contacts]);
+
     return { contacts };
 }
