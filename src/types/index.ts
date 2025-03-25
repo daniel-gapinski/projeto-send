@@ -192,3 +192,38 @@ export interface FilteredMessage {
     uid: string;
     owner: string;
 }
+
+
+export interface MessageUseProps {
+    id: string;
+    text: string;
+    status: string;
+    scheduledTime: string | null;
+    sentAt: string | null;
+    sentAtts: any;
+    contacts: ContactUseProps[];
+    name: string;
+    uid: string;
+    owner: string;
+}
+
+export interface ContactUseProps {
+    id: string;
+    uid: string;
+    name: string;
+    phone: string;
+    ownerts?: any;
+}
+
+export interface FetchedUseMessage {
+    id: string;
+    text: string;
+    status: string;
+    scheduledTime: string | null;
+    sentAt: string | null;
+    sentAtts: any;
+    contacts: { uid: string; name: string; phone: string }[];
+    name: string;
+    uid: string;
+    owner: string;
+}

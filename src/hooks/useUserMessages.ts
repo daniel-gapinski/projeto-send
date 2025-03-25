@@ -1,20 +1,31 @@
 import { useState, useEffect } from "react";
 import { fetchMessagesService } from "../services/fetchMessagesService";
-import { Message } from "../types";
+import { FetchedUseMessage, MessageUseProps } from "../types";
 
-export function useMessages () {
-    const [messages, setMessages] = useState<Message[]>([]);
+
+export function useMessages() {
+    const [messages, setMessages] = useState<MessageUseProps[]>([]);
     const [filter, setFilter] = useState<string>("todas");
 
     useEffect(() => {
         const loadMessages = async () => {
             try {
-                const fetchedMessages = await fetchMessagesService();
-                setMessages(fetchedMessages);
+                const fetchedMessages: FetchedUseMessage[] = await fetchMessagesService();
+
+                const mappedMessages: MessageUseProps[] = fetchedMessages.map((msg: FetchedUseMessage) => ({
+                    ...msg,
+                    contacts: msg.contacts.map(contact => ({
+                        id: contact.uid,
+                        ...contact,
+                    })),
+                }));
+
+                setMessages(mappedMessages);
             } catch (error) {
                 console.error("Erro ao carregar mensagens:", error);
             }
         };
+
         loadMessages();
     }, []);
 
@@ -27,4 +38,4 @@ export function useMessages () {
         filter,
         setFilter,
     };
-};
+}
