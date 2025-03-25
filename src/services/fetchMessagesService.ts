@@ -1,10 +1,12 @@
 import { db } from "../db/firebaseConnection";
 import { collection, getDocs } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { Message } from "../types";
 import { toast } from "react-toastify";
+import { FetchedMessage } from "../types";
 
-export async function fetchMessagesService (): Promise<Message[]> {
+
+
+export async function fetchMessagesService (): Promise<FetchedMessage[]> {
     try {
         const auth = getAuth();
         const user = auth.currentUser;
@@ -27,15 +29,19 @@ export async function fetchMessagesService (): Promise<Message[]> {
                         text: data.text,
                         contacts: data.contacts,
                         status: data.status,
-                        scheduledTime: data.scheduledTime || undefined,
-                        sentAt: data.sentAt || undefined,
-                        sentAtts: data.sentAtts || undefined,
-                    };
+                        scheduledTime: data.scheduledTime || null,
+                        sentAt: data.sentAt || null,
+                        sentAtts: data.sentAtts || null,
+                        name: data.name || '',
+                        uid: user.uid,
+                        owners: data.owners || [],
+                        owner: data.owner || 'defaultOwner',
+                    } as FetchedMessage;
                 }
 
                 return null;
             })
-            .filter((message) => message !== null) as Message[];
+            .filter((message) => message !== null) as FetchedMessage[];
 
         return messagesList;
     } catch (error) {

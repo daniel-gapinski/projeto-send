@@ -1,9 +1,9 @@
-import React from 'react';
-import { List } from '@mui/material';
-import UserMessageCard from "../../components/userMessageCard";
+import { List } from "@mui/material";
+import UserMessageCard from "../userMessageCard";
+import { FilteredMessageList } from "../../types";
 
 interface MessageListItemsProps {
-    filteredMessages: any[];
+    filteredMessages: FilteredMessageList[];
 }
 
 const MessageListItems: React.FC<MessageListItemsProps> = ({ filteredMessages }) => {

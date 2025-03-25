@@ -120,16 +120,39 @@ export interface NewMessage {
     status: string;
 }
 
-export interface OpenNewMessage extends NewMessage {
+export interface OpenNewMessage {
+    id: string;
     text: string;
-    scheduledTime?: string;
+    status: string;
+    scheduledTime: string | null;
+    contacts: { uid: string; name: string; phone: string }[];
+    sentAt?: string | null;
+    sentAtts?: any;
+    name?: string;
+    uid?: string;
+    owner?: string;
 }
+
+
 
 export interface AddContactProps {
     name: string;
     phone: string;
     userId: string | undefined;
     userName: string | undefined;
+}
+
+export interface FilteredMessageList {
+    id: string;
+    text: string;
+    status: string;
+    scheduledTime: string | null;
+    sentAt: string | null;
+    sentAtts: any;
+    contacts: { uid: string; name: string; phone: string }[];
+    name: string;
+    uid: string;
+    owner: string;
 }
 
 export interface UserRegisterProps {
@@ -141,4 +164,31 @@ export interface UserRegisterProps {
 export interface FilterProps {
     filter: string;
     setFilter: (value: string) => void;
+}
+
+export interface FetchedMessage {
+    id: string;
+    text: string;
+    contacts: { uid: string; name: string; phone: string }[];
+    status: string;
+    scheduledTime: string | null;
+    sentAt: string | null;
+    sentAtts: any;
+    name: string;
+    uid: string;
+    owners: any[];
+    owner: string;
+}
+
+export interface FilteredMessage {
+    id: string;
+    text: string;
+    status: string;
+    scheduledTime: string | null;
+    sentAt: string | null;
+    sentAtts: any;
+    contacts: { uid: string; name: string; phone: string }[];
+    name: string;
+    uid: string;
+    owner: string;
 }
