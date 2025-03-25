@@ -49,8 +49,8 @@ export default function ConnectionDetail() {
                 <ConnectionDetailList contacts={connection.contacts} />
 
                 <Box className="mt-6">
-                    <Button 
-                        variant="contained" 
+                    <Button
+                        variant="contained"
                         className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
                         onClick={() => handleOpenContactModal(connection)}
                     >
@@ -59,13 +59,16 @@ export default function ConnectionDetail() {
                 </Box>
             </Box>
 
-            <AddContactToConnectionModal
-                open={openContactModal}
-                onClose={handleCloseContactModal}
-                connection={selectedConnection}
-                contacts={contacts}
-                updateConnection={fetchConnectionDetails}
-            />
+            {selectedConnection && (
+                <AddContactToConnectionModal
+                    open={openContactModal}
+                    onClose={handleCloseContactModal}
+                    connection={selectedConnection}
+                    contacts={contacts}
+                    updateConnection={fetchConnectionDetails}
+                />
+            )}
+
         </Container>
     );
 }
