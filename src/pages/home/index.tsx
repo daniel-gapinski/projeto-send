@@ -1,23 +1,9 @@
-import { useContext, useEffect } from "react";
 import { Container } from "../../components/container";
 import { Box, Typography, ListItem, ListItemText, ListItemIcon, List } from "@mui/material";
 import { Link } from "react-router-dom";
 import { Dashboard, Group, Message, Schedule } from '@mui/icons-material';
-import { AuthContext } from "../../contexts/AuthContext";
-import { useConnections } from "../../hooks/useConnections";
-import { useContacts } from "../../hooks/useContacts";
 
 export default function Home() {
-
-    const { user } = useContext(AuthContext);
-    const { connections } = useConnections(user?.uid || "");
-    const { contacts } = useContacts(user?.uid || "");
-    console.log("Contatos no Home:", contacts);
-
-    useEffect(() => {
-        console.log("Contatos atualizados do useeffect:", contacts);  // Verifique se está chegando os dados corretos
-    }, [contacts]);
-
 
     return (
         <Container>
@@ -33,7 +19,7 @@ export default function Home() {
                     <Link to="/connections">
                         <ListItem className="border-b border-gray-200 hover:bg-gray-100 rounded-lg">
                             <ListItemIcon><Dashboard color="primary" /></ListItemIcon>
-                            <ListItemText primary="Conexões" secondary={`${connections.length} ${connections.length > 1 ? "conexões ativas" : "conexão ativa"}`} />
+                            <ListItemText primary="Conexões" secondary="Acesse aqui todas as conexões ativas" />
                         </ListItem>
                     </Link>
 
@@ -42,7 +28,7 @@ export default function Home() {
                             <ListItemIcon><Group color="primary" /></ListItemIcon>
                             <ListItemText
                                 primary="Contatos"
-                                secondary={contacts.length === 0 ? "Carregando contatos..." : `${contacts.length} ${contacts.length > 1 ? "contatos cadastrados" : "contato cadastrado"}`}
+                                secondary="Acesse aqui a lista de contatos cadastrados"
                             />
                         </ListItem>
                     </Link>
@@ -61,7 +47,6 @@ export default function Home() {
                         </ListItem>
                     </Link>
                 </List>
-
 
 
             </Box>

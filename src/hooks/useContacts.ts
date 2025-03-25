@@ -18,12 +18,11 @@ export function useContacts(userId: string | undefined) {
                 ...doc.data()
             })) as BasicContact[];
 
-            console.log("Contatos atualizados:", contactsList);
-            setContacts(contactsList);  // Atualize o estado aqui
+            setContacts(contactsList);
         });
 
         return () => unsubscribe();
-    }, [userId]);  // Re-rende quando o userId mudar
+    }, [userId]);
 
     return { contacts };
 }
