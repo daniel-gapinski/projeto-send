@@ -12,6 +12,7 @@ export default function Home() {
     const { user } = useContext(AuthContext);
     const { connections } = useConnections(user?.uid || "");
     const { contacts } = useContacts(user?.uid || "");
+    console.log("Contatos no Home:", contacts);
 
     return (
         <Container>
@@ -32,13 +33,12 @@ export default function Home() {
                     </Link>
 
                     <Link to="/contacts">
-                        <ListItem className="border-b border-gray-200 hover:bg-gray-100 rounded-lg">
-                            <ListItemIcon><Group color="primary" /></ListItemIcon>
-                            <ListItemText
-                                primary="Contatos"
-                                secondary={`${contacts.length} ${contacts.length > 1 ? "contatos cadastrados" : "contato cadastrado"}`}
-                            />
-                        </ListItem>
+                        {contacts.map((contact) => (
+                            <ListItem key={contact.id} className="border-b border-gray-200 hover:bg-gray-100 rounded-lg">
+                                <ListItemIcon><Group color="primary" /></ListItemIcon>
+                                <ListItemText primary={contact.name} secondary={contact.phone} />
+                            </ListItem>
+                        ))}
                     </Link>
 
                     <Link to="/message-list">
