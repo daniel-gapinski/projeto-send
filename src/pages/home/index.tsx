@@ -8,8 +8,8 @@ import { useConnections } from "../../hooks/useConnections";
 import { useContacts } from "../../hooks/useContacts";
 
 export default function Home() {
-    const { user } = useContext(AuthContext);
 
+    const { user } = useContext(AuthContext);
     const { connections } = useConnections(user?.uid || "");
     const { contacts } = useContacts(user?.uid || "");
 

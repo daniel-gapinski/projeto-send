@@ -1,11 +1,8 @@
 import { List, ListItem, ListItemText, ListItemIcon, Typography } from "@mui/material";
 import { GroupAdd } from "@mui/icons-material";
 import { PhoneFormat } from "../../utils";
-import { ContactProps } from "../../types";
+import { ConnectionDetailListProps } from "../../types";
 
-interface ConnectionDetailListProps {
-    contacts: ContactProps[];
-}
 
 const ConnectionDetailList: React.FC<ConnectionDetailListProps> = ({ contacts }) => {
     if (contacts.length === 0) {

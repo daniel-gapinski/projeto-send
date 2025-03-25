@@ -1,4 +1,4 @@
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { Container } from "../../components/container";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
@@ -7,6 +7,7 @@ import { useConnectionDetails } from "../../hooks/useConnectionDetail";
 import AddContactToConnectionModal from "../../components/addContactModal";
 import ConnectionDetailList from "../../components/connectionDetailList";
 import { BackButton } from "../../components/backButton";
+import AddContactButton from "../../components/buttons/AddContactButton";
 
 
 export default function ConnectionDetail() {
@@ -49,13 +50,7 @@ export default function ConnectionDetail() {
                 <ConnectionDetailList contacts={connection.contacts} />
 
                 <Box className="mt-6">
-                    <Button
-                        variant="contained"
-                        className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
-                        onClick={() => handleOpenContactModal(connection)}
-                    >
-                        Adicionar Novo Contato
-                    </Button>
+                    <AddContactButton connection={connection} onClick={handleOpenContactModal} />
                 </Box>
             </Box>
 

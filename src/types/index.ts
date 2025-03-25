@@ -66,3 +66,12 @@ export interface MessageCardProps {
         scheduledTime?: string;
     };
 }
+
+export interface AddContactButtonProps {
+    connection: Connection;
+    onClick: (connection: Connection) => void;
+}
+
+export interface ConnectionDetailListProps {
+    contacts: ContactProps[];
+}

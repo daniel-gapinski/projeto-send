@@ -1,21 +1,27 @@
 import { useState, useEffect } from "react";
+import { db } from "../db/firebaseConnection";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { BasicContact } from "../types";
-import { fetchContactsService } from "../services/contactService";
 
 export function useContacts(userId: string | undefined) {
     const [contacts, setContacts] = useState<BasicContact[]>([]);
 
-    async function fetchContacts () {
-        const contactsList = await fetchContactsService(userId);
-        setContacts(contactsList);
-    };
-
     useEffect(() => {
-        if (userId) {
-            fetchContacts();
-        }
+        if (!userId) return;
+
+        const contactsRef = collection(db, "contacts");
+        const q = query(contactsRef, where("uid", "==", userId));
+
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            const contactsList = querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            })) as BasicContact[];
+            setContacts(contactsList);
+        });
+
+        return () => unsubscribe();
     }, [userId]);
 
-
-    return { contacts, fetchContacts };
+    return { contacts };
 }

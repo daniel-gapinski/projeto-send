@@ -3,13 +3,8 @@ import { useAddContactToConnection } from "../../hooks/useAddContactToConnection
 import { AddContactToConnectionModalProps } from "../../types";
 
 export default function AddContactToConnectionModal({ open, onClose, connection, contacts, updateConnection }: AddContactToConnectionModalProps) {
-    const {
-        selectedContact,
-        setSelectedContact,
-        handleAddContact,
-        filteredContacts
-    } = useAddContactToConnection({ connection, contacts, onClose });
-
+    
+    const {selectedContact, setSelectedContact, handleAddContact, filteredContacts} = useAddContactToConnection({ connection, contacts, onClose });
     const handleSaveContact = async () => {
         await handleAddContact();
         updateConnection();
